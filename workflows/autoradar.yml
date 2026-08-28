@@ -1,0 +1,126 @@
+name: AUTORADAR Collector + Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      detail_budget:
+        description: "Detailed ads to refresh in this run"
+        required: false
+        default: "80"
+  schedule:
+    - cron: "3,18,33,48 * * * *"
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "data/**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: autoradar-production
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    environment:
+      name: github-pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Save previous market hash
+        run: cp data/market_hash.txt /tmp/old_market_hash 2>/dev/null || true
+
+      - name: Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Dependencies
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Collect public market data
+        env:
+          DETAIL_BUDGET: ${{ github.event.inputs.detail_budget || '35' }}
+        run: python scraper/run.py
+
+      - name: Decide persistence
+        id: persist
+        shell: bash
+        run: |
+          OLD=$(cat /tmp/old_market_hash 2>/dev/null || echo none)
+          NEW=$(cat data/market_hash.txt 2>/dev/null || echo new)
+          MIN=$(date -u +%M)
+          if [ "$OLD" != "$NEW" ]; then
+            echo "save=yes" >> "$GITHUB_OUTPUT"
+            echo "reason=market-change" >> "$GITHUB_OUTPUT"
+          elif [ "$MIN" -lt 15 ]; then
+            echo "save=yes" >> "$GITHUB_OUTPUT"
+            echo "reason=hourly-freshness" >> "$GITHUB_OUTPUT"
+          else
+            echo "save=no" >> "$GITHUB_OUTPUT"
+            echo "reason=no-change" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Daily heartbeat
+        if: steps.persist.outputs.save == 'yes'
+        run: date -u +%F > data/heartbeat.txt
+
+      - name: Commit data when needed
+        if: steps.persist.outputs.save == 'yes'
+        run: |
+          git config user.name "AUTORADAR Bot"
+          git config user.email "autoradar-bot@users.noreply.github.com"
+          git add data/
+          if ! git diff --cached --quiet; then
+            git commit -m "data: ${{ steps.persist.outputs.reason }} [collector]"
+            git push
+          fi
+
+      - name: Build static site artifact
+        run: |
+          mkdir -p _site/data
+          cp index.html _site/
+          cp data/current.json _site/data/
+          cp data/history.json _site/data/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: "_site"
+
+      - name: Deploy Pages
+        uses: actions/deploy-pages@v4
+
+  deploy_on_push:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build static site artifact
+        run: |
+          mkdir -p _site/data
+          cp index.html _site/
+          cp data/current.json _site/data/
+          cp data/history.json _site/data/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: "_site"
+      - uses: actions/deploy-pages@v4
