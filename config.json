@@ -1,147 +1,149 @@
 {
   "city": "Тюмень",
   "brand": "TENET",
-  "detail_budget_per_run": 35,
+  "retire_after_hours": 48,
   "detail_refresh_hours": 24,
-  "sources": [
+  "detail_budget_per_run": 45,
+  "dealers": [
     {
-      "id": "drom_vostok",
-      "type": "drom",
-      "label": "Дром",
-      "dealer": "Tenet | Восток Моторс",
+      "id": "vostok_tyumen",
+      "name": "Восток Моторс",
       "address": "Тюмень, ул. Алебашевская, 11",
-      "url": "https://auto.drom.ru/dealer340225/",
-      "pages": 4,
-      "interval_minutes": 15,
-      "enabled": true
+      "sources": [
+        {
+          "id": "drom_vostok",
+          "type": "drom",
+          "label": "Дром",
+          "url": "https://auto.drom.ru/dealer340225/",
+          "pages": 4,
+          "interval_minutes": 15,
+          "enabled": true
+        },
+        {
+          "id": "site_vostok",
+          "type": "dealer_site",
+          "label": "Сайт дилера",
+          "urls": [
+            "https://tenet-tyumen.ru/",
+            "https://tenet-tyumen.ru/customers/offers/"
+          ],
+          "interval_minutes": 60,
+          "enabled": true
+        }
+      ]
     },
     {
-      "id": "drom_basis",
-      "type": "drom",
-      "label": "Дром",
-      "dealer": "TENET БАЗИС МОТОРС",
+      "id": "basis_tyumen",
+      "name": "БАЗИС МОТОРС",
       "address": "Тюмень, ул. Федюнинского, 83",
-      "url": "https://auto.drom.ru/dealer322313/",
-      "pages": 4,
-      "interval_minutes": 15,
-      "enabled": true
+      "sources": [
+        {
+          "id": "drom_basis",
+          "type": "drom",
+          "label": "Дром",
+          "url": "https://auto.drom.ru/dealer322313/",
+          "pages": 4,
+          "interval_minutes": 15,
+          "enabled": true
+        },
+        {
+          "id": "site_basis",
+          "type": "dealer_site",
+          "label": "Сайт дилера",
+          "urls": [
+            "https://tenet-bazismotors.ru/",
+            "https://tenet-bazismotors.ru/customers/offers/"
+          ],
+          "interval_minutes": 60,
+          "enabled": true
+        }
+      ]
     },
     {
-      "id": "drom_forward",
-      "type": "drom",
-      "label": "Дром",
-      "dealer": "TENET Форвард-Авто",
+      "id": "forward_tyumen",
+      "name": "Форвард-Авто",
       "address": "Тюмень, ул. Республики, 282",
-      "url": "https://auto.drom.ru/dealer340337/",
-      "pages": 4,
-      "interval_minutes": 15,
-      "enabled": true
+      "sources": [
+        {
+          "id": "drom_forward",
+          "type": "drom",
+          "label": "Дром",
+          "url": "https://auto.drom.ru/dealer340337/",
+          "pages": 4,
+          "interval_minutes": 15,
+          "enabled": true
+        },
+        {
+          "id": "site_forward",
+          "type": "dealer_site",
+          "label": "Сайт дилера",
+          "urls": [
+            "https://tenet-forward.ru/",
+            "https://tenet-forward.ru/customers/offers/"
+          ],
+          "interval_minutes": 60,
+          "enabled": true
+        }
+      ]
     },
     {
-      "id": "drom_alliance",
-      "type": "drom",
-      "label": "Дром",
-      "dealer": "TENET | АЛЬЯНС-МОТОРС",
+      "id": "alliance_tyumen",
+      "name": "Альянс-Моторс",
       "address": "Тюмень, ул. Федюнинского, 12А",
-      "url": "https://auto.drom.ru/dealer340520/",
-      "pages": 4,
-      "interval_minutes": 15,
-      "enabled": true
-    },
+      "sources": [
+        {
+          "id": "drom_alliance",
+          "type": "drom",
+          "label": "Дром",
+          "url": "https://auto.drom.ru/dealer340520/",
+          "pages": 4,
+          "interval_minutes": 15,
+          "enabled": true
+        },
+        {
+          "id": "site_alliance",
+          "type": "dealer_site",
+          "label": "Сайт дилера",
+          "urls": [
+            "https://tenet-allyance.ru/",
+            "https://tenet-allyance.ru/customers/offers/"
+          ],
+          "interval_minutes": 60,
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "global_sources": [
     {
       "id": "autoru_tyumen_tenet",
       "type": "autoru",
       "label": "Auto.ru",
-      "dealer": "",
-      "address": "",
-      "url": "https://auto.ru/tyumen/cars/tenet/all/",
-      "scrolls": 8,
+      "url": "https://auto.ru/tyumen/cars/tenet/new/",
       "interval_minutes": 30,
-      "enabled": true
-    },
-    {
-      "id": "site_vostok",
-      "type": "dealer_site",
-      "label": "Сайт дилера",
-      "dealer": "Tenet | Восток Моторс",
-      "address": "Тюмень, ул. Алебашевская, 11",
-      "urls": [
-        "https://tenet-tyumen.ru/",
-        "https://tenet-tyumen.ru/customers/offers/",
-        "https://tyumen.vostok-motors.ru/"
-      ],
-      "interval_minutes": 60,
-      "enabled": true
-    },
-    {
-      "id": "site_basis",
-      "type": "dealer_site",
-      "label": "Сайт дилера",
-      "dealer": "TENET БАЗИС МОТОРС",
-      "address": "Тюмень, ул. Федюнинского, 83",
-      "urls": [
-        "https://tenet-bazismotors.ru/",
-        "https://tenet-bazismotors.ru/customers/offers/",
-        "https://bazis-motors.ru/"
-      ],
-      "interval_minutes": 60,
-      "enabled": true
-    },
-    {
-      "id": "site_forward",
-      "type": "dealer_site",
-      "label": "Сайт дилера",
-      "dealer": "TENET Форвард-Авто",
-      "address": "Тюмень, ул. Республики, 282",
-      "urls": [
-        "https://tenet-forward.ru/",
-        "https://tenet-forward.ru/customers/offers/"
-      ],
-      "interval_minutes": 60,
-      "enabled": true
-    },
-    {
-      "id": "site_alliance",
-      "type": "dealer_site",
-      "label": "Сайт дилера",
-      "dealer": "TENET | АЛЬЯНС-МОТОРС",
-      "address": "Тюмень, ул. Федюнинского, 12А",
-      "urls": [
-        "https://tenet-allyance.ru/",
-        "https://tenet-allyance.ru/customers/offers/"
-      ],
-      "interval_minutes": 60,
+      "scrolls": 8,
       "enabled": true
     },
     {
       "id": "avito_placeholder",
-      "type": "disabled",
+      "type": "placeholder",
       "label": "Avito",
-      "dealer": "",
-      "url": "",
-      "interval_minutes": 30,
       "enabled": false,
-      "note": "Подключается после добавления стабильной публичной ссылки/фида. CAPTCHA не обходится."
+      "note": "Подключить стабильную публичную ссылку/API/фид. CAPTCHA не обходится."
     },
     {
       "id": "2gis_placeholder",
-      "type": "disabled",
+      "type": "placeholder",
       "label": "2ГИС",
-      "dealer": "",
-      "url": "",
-      "interval_minutes": 180,
       "enabled": false,
-      "note": "Предназначен для акций дилеров, не для каждой машины."
+      "note": "Для акций и профилей дилеров; подключается отдельным публичным адаптером."
     },
     {
       "id": "vk_placeholder",
-      "type": "disabled",
+      "type": "placeholder",
       "label": "VK",
-      "dealer": "",
-      "url": "",
-      "interval_minutes": 60,
       "enabled": false,
-      "note": "Подключается по публичным страницам дилеров или официальному API."
+      "note": "Подключается по публичным страницам или официальному API."
     }
   ]
 }
