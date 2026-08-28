@@ -32,6 +32,6 @@ class Browser:
             for _ in range(scrolls):
                 await p.evaluate("window.scrollTo(0, document.body.scrollHeight)")
                 await p.wait_for_timeout(700)
-            return await p.content(), await p.url
+            return await p.content(), p.url
         finally:
             await p.close()

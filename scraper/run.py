@@ -22,6 +22,9 @@ def minutes_since(iso):
     except: return 10**9
 
 def should_run(interval_minutes):
+    # Manual/local run can explicitly force every enabled source.
+    if os.environ.get("FORCE_ALL", "").strip().lower() in ("1", "true", "yes", "on"):
+        return True
     # Workflow starts at :03/:18/:33/:48. This bucket rule remains robust to modest delays.
     now=datetime.now(timezone.utc)
     quarter=(now.minute//15)
