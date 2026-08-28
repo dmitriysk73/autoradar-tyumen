@@ -1,0 +1,27 @@
+AUTORADAR v1.1 FIX
+
+Исправлено:
+1. Playwright: page.url — это строковое свойство, а не awaitable.
+   Было: return await p.content(), await p.url
+   Стало: return await p.content(), p.url
+
+2. Ручной workflow_dispatch теперь принудительно проверяет ВСЕ включённые источники,
+   независимо от их обычного интервала 15/30/60 минут.
+
+3. Добавлен scraper/smoke_test.py.
+   Перед сбором GitHub Actions проверяет, что Chromium + Playwright корректно
+   возвращают HTML и URL. Если браузерный слой сломан, workflow остановится
+   до обхода дилерских сайтов.
+
+Для обновления существующего GitHub-репозитория достаточно заменить:
+- scraper/browser.py
+- scraper/run.py
+- .github/workflows/autoradar.yml
+и добавить:
+- scraper/smoke_test.py
+
+Либо загрузить содержимое полного архива поверх репозитория.
+
+4. Добавлен scraper/health_check.py.
+   Если workflow реально проверял источники, но ни один не вернул данные,
+   job завершается ошибкой. Зелёный статус теперь не скрывает полный отказ сбора.
