@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="AUTORADAR — мониторинг публичных предложений новых автомобилей TENET у дилеров Тюмени.">
+<title>AUTORADAR — TENET Тюмень</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#667085;--line:#e4e7ec;--red:#ef4444;--green:#16a34a;--amber:#d97706;--blue:#2563eb}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.nav{max-width:1440px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{font-size:23px;font-weight:900}.logo b{color:var(--red)}.sync{font-size:12px;color:var(--muted)}
+main{max-width:1440px;margin:auto;padding:26px 24px 60px}
+.hero{border-radius:24px;background:linear-gradient(135deg,#0f172a,#253047);color:#fff;padding:34px;display:grid;grid-template-columns:1.35fr .65fr;gap:24px}
+.hero h1{font-size:40px;line-height:1.05;margin:0 0 12px}.hero p{color:#d0d5dd;line-height:1.55;max-width:780px}
+.kpis{display:flex;gap:32px;flex-wrap:wrap;margin-top:25px}.kpi b{font-size:25px;display:block}.kpi span{font-size:12px;color:#d0d5dd}
+.heroSide{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:17px;padding:18px}
+.heroSide strong{display:block;margin-bottom:9px}.heroSide div{font-size:13px;color:#e5e7eb;line-height:1.7}
+.toolbar{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr 1fr;gap:10px;margin:22px 0}
+select,input{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.sectionTop{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:28px 0 14px}.sectionTop h2{margin:0;font-size:25px}.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.layout{display:grid;grid-template-columns:1fr 330px;gap:18px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(16,24,40,.04)}
+.photo{height:180px;background:linear-gradient(135deg,#e5e7eb,#cbd5e1);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:900;color:#64748b}
+.photo img{width:100%;height:100%;object-fit:cover}.badge{position:absolute;top:10px;left:10px;background:#fff;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:800}
+.badge.source{left:auto;right:10px}.body{padding:15px}.dealer{font-size:12px;color:#475467}.title{font-size:19px;font-weight:900;margin:7px 0 5px}.spec{font-size:12px;color:var(--muted);min-height:29px}
+.price{font-size:27px;font-weight:900;margin-top:13px}.old{font-size:13px;color:#98a2b3;text-decoration:line-through;margin-left:8px}.saving{color:var(--blue);font-size:12px;font-weight:800;margin-top:4px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}.chip{border:1px solid var(--line);background:#fafafa;border-radius:999px;padding:6px 8px;font-size:11px}
+.sources{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}.src{font-size:11px;font-weight:800;padding:5px 8px;border-radius:7px;background:#f2f4f7}.src.drom{color:#d91f26}.src.autoru{color:#2563eb}
+.buttons{display:flex;gap:8px;margin-top:13px}.btn{border:0;border-radius:9px;padding:10px 11px;font-weight:800;cursor:pointer}.primary{background:#111827;color:#fff}.secondary{background:#f2f4f7;color:#111827}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:15px}.panel h3{margin:0 0 12px}
+.coverage{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #f0f1f3;font-size:12px}.coverage:last-child{border:0}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}.ok{background:var(--green)}.error{background:var(--red)}.pending,.skipped{background:var(--amber)}.not_configured{background:#98a2b3}
+.empty{background:#fff;border:1px dashed #d0d5dd;border-radius:16px;padding:45px;text-align:center;color:#667085;grid-column:1/-1}
+.modal{display:none;position:fixed;inset:0;background:rgba(15,23,42,.65);z-index:50;align-items:center;justify-content:center;padding:18px}.modal.open{display:flex}.modalbox{background:#fff;border-radius:18px;width:min(920px,100%);max-height:90vh;overflow:auto;padding:20px}
+.modalTop{display:flex;justify-content:space-between;gap:15px}.sourceRow{border:1px solid var(--line);border-radius:13px;padding:13px;margin-top:10px}.sourceRow a{color:var(--blue);text-decoration:none;font-weight:800}
+.notice{font-size:11px;color:#667085;margin-top:20px;line-height:1.5}
+@media(max-width:1100px){.grid{grid-template-columns:1fr 1fr}.layout{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr 1fr}.hero{grid-template-columns:1fr}}
+@media(max-width:700px){main{padding:16px}.grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.hero{padding:25px}.hero h1{font-size:31px}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="logo"><b>●</b> AUTORADAR</div><div class="sync" id="sync">Данные загружаются…</div></div></header>
+<main>
+<section class="hero">
+<div><h1>Новые TENET у дилеров Тюмени</h1><p>Публичные объявления с разных площадок собираются в одном месте. Сервис показывает источник, дилера, характеристики, рекламную и обычную цену и объединяет похожие объявления.</p>
+<div class="kpis"><div class="kpi"><b id="kVehicles">—</b><span>автомобилей</span></div><div class="kpi"><b id="kListings">—</b><span>активных объявлений</span></div><div class="kpi"><b id="kSources">—</b><span>работающих источников</span></div></div></div>
+<div class="heroSide"><strong>Автоматический мониторинг</strong><div>Дром — каждые 15 минут<br>Auto.ru — каждые 30 минут<br>Сайты дилеров — каждый час<br>Новые/изменённые карточки проверяются детально</div></div>
+</section>
+
+<div class="toolbar">
+<select id="model"><option value="">Все модели</option></select>
+<select id="dealer"><option value="">Все дилеры</option></select>
+<select id="drive"><option value="">Любой привод</option><option>Передний</option><option>Полный</option></select>
+<select id="source"><option value="">Все источники</option><option>Дром</option><option>Auto.ru</option><option>Сайт дилера</option></select>
+<select id="sort"><option value="price">Сначала дешевле</option><option value="saving">Максимальная выгода</option><option value="newest">Больше источников</option></select>
+</div>
+
+<div class="sectionTop"><div><h2>Актуальные предложения</h2><div class="sub" id="results"></div></div></div>
+<div class="layout">
+<div class="grid" id="cards"></div>
+<aside>
+<div class="panel"><h3>Покрытие источников</h3><div id="coverage"></div></div>
+<div class="panel"><h3>Как читать цену</h3><div class="sub">AUTORADAR не гарантирует, что рекламная цена доступна без кредита, trade-in или других условий. Всегда открывайте исходное объявление и проверяйте условия у дилера.</div></div>
+</aside>
+</div>
+<div class="notice">AUTORADAR показывает публично доступные сведения и ссылки на первоисточники. Фотографии не копируются на сервер проекта: используются внешние URL источников. Площадки с CAPTCHA/авторизацией не обходятся.</div>
+</main>
+
+<div class="modal" id="modal"><div class="modalbox"><div class="modalTop"><div><h2 id="mTitle" style="margin:0"></h2><div class="sub" id="mSub"></div></div><button class="btn secondary" onclick="modal.classList.remove('open')">Закрыть</button></div><div id="mBody"></div></div></div>
+
+<script>
+let DATA={meta:{},coverage:[],vehicles:[],listings:[]};
+const money=n=>n?new Intl.NumberFormat('ru-RU').format(n)+' ₽':'—';
+const fmtTime=s=>s?new Date(s).toLocaleString('ru-RU'):'—';
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function sourceClass(s){return s==='Drom'?'drom':s==='Дром'?'drom':s==='Auto.ru'?'autoru':''}
+async function boot(){
+ try{
+  const r=await fetch('data/current.json?'+Date.now()); DATA=await r.json();
+ }catch(e){console.error(e)}
+ sync.textContent=DATA.meta.generated_at?'Обновлено: '+fmtTime(DATA.meta.generated_at):'Первый автоматический сбор ещё не выполнен';
+ kVehicles.textContent=DATA.meta.vehicles_active??DATA.vehicles.length;
+ kListings.textContent=DATA.meta.listings_active??DATA.listings.length;
+ kSources.textContent=DATA.coverage.filter(x=>x.status==='ok').length;
+ fillFilters();render();renderCoverage();
+}
+function fillFilters(){
+ const models=[...new Set(DATA.vehicles.map(x=>x.model).filter(Boolean))].sort();
+ const dealers=[...new Set(DATA.vehicles.map(x=>x.dealer_name).filter(Boolean))].sort();
+ model.innerHTML='<option value="">Все модели</option>'+models.map(x=>`<option>${esc(x)}</option>`).join('');
+ dealer.innerHTML='<option value="">Все дилеры</option>'+dealers.map(x=>`<option>${esc(x)}</option>`).join('');
+ [model,dealer,drive,source,sort].forEach(x=>x.addEventListener('change',render));
+}
+function filtered(){
+ let a=DATA.vehicles.filter(v=>(!model.value||v.model===model.value)&&(!dealer.value||v.dealer_name===dealer.value)&&(!drive.value||v.drive===drive.value)&&(!source.value||v.sources.includes(source.value)));
+ if(sort.value==='price')a.sort((a,b)=>(a.best_price||1e15)-(b.best_price||1e15));
+ if(sort.value==='saving')a.sort((a,b)=>((b.regular_price||b.best_price||0)-(b.best_price||0))-((a.regular_price||a.best_price||0)-(a.best_price||0)));
+ if(sort.value==='newest')a.sort((a,b)=>b.source_count-a.source_count);
+ return a;
+}
+function render(){
+ const a=filtered(); results.textContent=`Найдено ${a.length} объединённых карточек`;
+ cards.innerHTML=a.length?a.map(v=>{
+   const saving=(v.regular_price||0)-(v.best_price||0);
+   const spec=[v.year,v.trim,v.engine_l?v.engine_l+' л':'',v.power_hp?v.power_hp+' л.с.':'',v.gearbox,v.drive].filter(Boolean).join(' · ');
+   const chips=[];
+   if(v.monthly_payment) chips.push('от '+money(v.monthly_payment)+'/мес');
+   if((v.credit_terms||[]).length) chips.push('кредит');
+   if((v.tradein_terms||[]).length) chips.push('trade-in');
+   if((v.gifts||[]).length) chips.push('подарки');
+   const img=v.image?`<img loading="lazy" src="${esc(v.image)}" onerror="this.remove()">`:`TENET ${esc(v.model)}`;
+   return `<article class="card"><div class="photo">${img}<span class="badge">${esc(v.color||v.year||'TENET')}</span><span class="badge source">${v.source_count} ист.</span></div>
+   <div class="body"><div class="dealer">${esc(v.dealer_name||'Дилер уточняется')} · ${esc(v.dealer_address||'Тюмень')}</div>
+   <div class="title">TENET ${esc(v.model)} ${esc(v.trim||'')}</div><div class="spec">${esc(spec)}</div>
+   <div><span class="price">${money(v.best_price)}</span>${v.regular_price&&v.regular_price!==v.best_price?`<span class="old">${money(v.regular_price)}</span>`:''}</div>
+   ${saving>0?`<div class="saving">Разница: ${money(saving)}</div>`:''}
+   <div class="chips">${chips.map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div>
+   <div class="sources">${v.sources.map(s=>`<span class="src ${sourceClass(s)}">${esc(s)}</span>`).join('')}</div>
+   <div class="buttons"><button class="btn primary" onclick='detail(${JSON.stringify(v.vehicle_id)})'>Все источники</button></div></div></article>`;
+ }).join(''):`<div class="empty"><b>Пока нет данных.</b><br><br>После первого запуска GitHub Action карточки появятся автоматически.</div>`;
+}
+function renderCoverage(){
+ coverage.innerHTML=DATA.coverage.map(x=>`<div class="coverage"><div><span class="dot ${esc(x.status)}"></span><b>${esc(x.label)}</b>${x.dealer?`<br><span style="color:#98a2b3">${esc(x.dealer)}</span>`:''}</div><div style="text-align:right">${x.count||0}<br><span style="color:#98a2b3">${x.last_checked?new Date(x.last_checked).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}):'—'}</span></div></div>`).join('');
+}
+function detail(id){
+ const v=DATA.vehicles.find(x=>x.vehicle_id===id); if(!v)return;
+ mTitle.textContent=`TENET ${v.model} ${v.trim||''}`; mSub.textContent=`${v.dealer_name||''} · лучшая цена ${money(v.best_price)}`;
+ mBody.innerHTML=(v.listings||[]).map(x=>`<div class="sourceRow"><b>${esc(x.source)}</b> · ${esc(x.dealer_name||'')}<br>
+ <span style="font-size:22px;font-weight:900">${money(x.promo_price||x.regular_price)}</span>${x.regular_price&&x.regular_price!==x.promo_price?` <span class="old">${money(x.regular_price)}</span>`:''}<br>
+ <span class="sub">${esc([x.year,x.trim,x.color,x.drive].filter(Boolean).join(' · '))}</span><br><br>
+ <a href="${esc(x.source_url)}" target="_blank" rel="noopener noreferrer">Открыть оригинал →</a>
+ ${(x.credit_terms||[]).slice(0,3).map(t=>`<div class="sub">💳 ${esc(t)}</div>`).join('')}
+ ${(x.tradein_terms||[]).slice(0,2).map(t=>`<div class="sub">🔄 ${esc(t)}</div>`).join('')}
+ ${(x.gifts||[]).slice(0,2).map(t=>`<div class="sub">🎁 ${esc(t)}</div>`).join('')}
+ </div>`).join('');
+ modal.classList.add('open');
+}
+boot();
+</script>
+</body>
+</html>

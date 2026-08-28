@@ -1,0 +1,7 @@
+AUTORADAR Autonomous Free v1
+Frontend: static HTML/JS
+Scheduler: GitHub Actions every ~15 min
+Hosting: GitHub Pages
+Storage: committed JSON (current/history/state)
+Collectors: Drom, Auto.ru, 4 dealer sites
+No paid server required for public GitHub repo MVP.
